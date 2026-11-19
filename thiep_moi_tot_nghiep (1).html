@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta property="og:title" content="Thiệp Mời Tốt Nghiệp - Kim Anh">
+    <meta property="og:description" content="Chạm vào phong bì để mở thiệp mời nhé!">
+    <meta property="og:image" content="https://<link-web-cua-ban>/kim-anh.png">
+    <meta property="og:type" content="website">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Kim Anh's Graduation Invitation</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@600;700&family=Great+Vibes&family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,600&family=Montserrat:wght@500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --env-back: #dfb5c2;
+            --env-front: #ecc9d4;
+            --env-front-dark: #e4bcc9;
+            --env-flap: #f3d5de;
+            --paper: #fdfbfa;
+            --text-rose: #9a3859;
+            --stripe-bg: #fae4ec;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: #ffffff;
+            background-image: repeating-linear-gradient(
+                90deg,
+                #ffffff,
+                #ffffff 24px,
+                var(--stripe-bg) 24px,
+                var(--stripe-bg) 48px
+            );
+            color: var(--text-rose);
+            margin: 0;
+            overflow: hidden;
+            height: 100vh;
+            height: 100dvh;
+            width: 100vw;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .font-script { font-family: 'Great Vibes', cursive; }
+        .font-serif-elegant { font-family: 'Playfair Display', serif; }
+        .font-sticker { font-family: 'Fredoka', sans-serif; }
+
+        .scene-container {
+            position: relative;
+            width: 380px;
+            height: 640px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            transform-origin: center center;
+        }
+
+        @media (max-height: 690px), (max-width: 390px) {
+            .scene-container {
+                transform: scale(0.86);
+            }
+        }
+
+        /* ====== TIÊU ĐỀ STICKER PHÍA TRÊN ====== */
+        .top-header {
+            position: absolute;
+            top: 8px;
+            left: 0;
+            right: 0;
+            z-index: 30;
+            pointer-events: none;
+            opacity: 0;
+            transform: translateY(-20px) scale(0.92);
+            transition: opacity 0.8s ease 1.5s, transform 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) 1.5s;
+            padding: 0 12px;
+        }
+
+        .scene-container.is-open .top-header {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+
+        .sticker-dark {
+            color: #9e4b68;
+            text-shadow:
+                -3px -3px 0 #f7dce5, 3px -3px 0 #f7dce5,
+                -3px  3px 0 #f7dce5, 3px  3px 0 #f7dce5,
+                 0px -3px 0 #f7dce5, 0px  3px 0 #f7dce5,
+                -3px  0px 0 #f7dce5, 3px  0px 0 #f7dce5,
+                 0px 5px 10px rgba(154, 56, 89, 0.18);
+        }
+
+        .sticker-outline {
+            color: #ffffff;
+            -webkit-text-stroke: 2px #c88fa2;
+            paint-order: stroke fill;
+            text-shadow:
+                -2px -2px 0 #c88fa2, 2px -2px 0 #c88fa2,
+                -2px  2px 0 #c88fa2, 2px  2px 0 #c88fa2,
+                 0px 4px 10px rgba(154, 56, 89, 0.15);
+        }
+
+        /* ====== PHONG BÌ ====== */
+        .env-wrapper {
+            position: relative;
+            width: 320px;
+            height: 215px;
+            cursor: pointer;
+            transition: transform 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+            margin-top: 20px;
+        }
+
+        .scene-container.is-open .env-wrapper {
+            transform: translateY(155px);
+            cursor: default;
+        }
+
+        .env-back {
+            position: absolute;
+            inset: 0;
+            background: var(--env-back);
+            border-radius: 6px;
+            box-shadow: 0 18px 36px rgba(138, 63, 90, 0.22);
+            z-index: 1;
+        }
+
+        /* TÚI ẢO CẮT MẶT NẠ */
+        .env-pocket {
+            position: absolute;
+            inset: 0;
+            z-index: 2;
+            -webkit-clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+            clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+            transition: clip-path 0.05s linear 0.45s, -webkit-clip-path 0.05s linear 0.45s;
+        }
+
+        .scene-container.is-open .env-pocket {
+            -webkit-clip-path: polygon(-150px -480px, calc(100% + 150px) -480px, calc(100% + 150px) calc(100% + 150px), -150px calc(100% + 150px));
+            clip-path: polygon(-150px -480px, calc(100% + 150px) -480px, calc(100% + 150px) calc(100% + 150px), -150px calc(100% + 150px));
+        }
+
+        /* ====== TỜ THIỆP BÊN TRONG ====== */
+        .env-letter {
+            position: absolute;
+            bottom: 12px;
+            left: 14px;
+            right: 14px;
+            height: 415px;
+            background: var(--paper);
+            border-radius: 6px;
+            box-shadow: 0 10px 28px rgba(138, 63, 90, 0.16);
+            transform: translateY(210px);
+            opacity: 0;
+            z-index: 2;
+            pointer-events: none;
+        }
+
+        .scene-container.is-open .env-letter {
+            animation: slide-and-overlay 2s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+            animation-delay: 0.45s;
+        }
+
+        @keyframes slide-and-overlay {
+            0% {
+                opacity: 1;
+                transform: translateY(190px) rotate(0deg);
+                z-index: 2;
+            }
+            42% {
+                opacity: 1;
+                transform: translateY(-210px) rotate(0deg);
+                z-index: 2;
+            }
+            48% {
+                opacity: 1;
+                transform: translateY(-210px) rotate(0deg);
+                z-index: 15;
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(-38px) rotate(2deg);
+                z-index: 15;
+            }
+        }
+
+        .env-letter-content {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            padding: 18px 16px 14px 16px;
+            background: linear-gradient(180deg, #ffffff 0%, #fcf7f9 100%);
+            border-radius: 6px;
+            position: relative;
+        }
+
+        .double-bar {
+            border-top: 3px double var(--text-rose);
+            border-bottom: 3px double var(--text-rose);
+            padding: 4px 4px;
+        }
+
+        /* Nơ ruy băng hồng góc trái trên của tờ thiệp */
+        .card-bow {
+            position: absolute;
+            top: -24px;
+            left: -26px;
+            width: 94px;
+            height: 84px;
+            z-index: 22;
+            opacity: 0;
+            transform: scale(0.5) rotate(-15deg);
+            transition: opacity 0.6s ease 1.75s, transform 0.7s cubic-bezier(0.34, 1.56, 0.64, 1) 1.75s;
+            filter: drop-shadow(0 4px 6px rgba(154, 56, 89, 0.22));
+            pointer-events: none;
+        }
+
+        .scene-container.is-open .card-bow {
+            opacity: 1;
+            transform: scale(1) rotate(-10deg);
+        }
+
+        /* Con dấu sáp dịch nhẹ sang trái để nhường không gian cho ảnh tốt nghiệp to hơn */
+        .inner-wax-seal {
+            position: absolute;
+            bottom: 24px;
+            left: 46%;
+            transform: translateX(-50%) scale(0.5);
+            width: 50px;
+            height: 50px;
+            z-index: 18;
+            opacity: 0;
+            transition: opacity 0.6s ease 1.85s, transform 0.7s cubic-bezier(0.34, 1.56, 0.64, 1) 1.85s;
+            filter: drop-shadow(0 5px 8px rgba(122, 39, 68, 0.3));
+        }
+
+        .scene-container.is-open .inner-wax-seal {
+            opacity: 1;
+            transform: translateX(-50%) scale(1);
+        }
+
+        /* BÉ THỎ TRẮNG + HOA GÓC DƯỚI BÊN TRÁI */
+        .bunny-wrap {
+            position: absolute;
+            bottom: 2px;
+            left: 2px;
+            width: 98px;
+            height: 112px;
+            z-index: 20;
+            opacity: 0;
+            transform: translateY(18px) scale(0.88);
+            transition: opacity 0.7s ease 1.85s, transform 0.75s cubic-bezier(0.34, 1.56, 0.64, 1) 1.85s;
+            filter: drop-shadow(0 4px 8px rgba(122, 39, 68, 0.18));
+            pointer-events: none;
+        }
+
+        .scene-container.is-open .bunny-wrap {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+
+        /* ẢNH TỐT NGHIỆP TO RÕ HƠN Ở GÓC DƯỚI BÊN PHẢI */
+        .grad-photo-wrap {
+            position: absolute;
+            bottom: -2px;
+            right: -22px;
+            width: 188px;
+            height: 268px;
+            z-index: 21;
+            opacity: 0;
+            transform: translateY(18px) scale(0.88);
+            transition: opacity 0.7s ease 1.95s, transform 0.75s cubic-bezier(0.34, 1.56, 0.64, 1) 1.95s;
+            display: flex;
+            align-items: flex-end;
+            justify-content: flex-end;
+            pointer-events: none;
+        }
+
+        .scene-container.is-open .grad-photo-wrap {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+
+        .grad-photo {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            object-position: bottom center;
+            image-rendering: -webkit-optimize-contrast;
+            filter: contrast(1.04) saturate(1.05) drop-shadow(0 5px 10px rgba(122, 39, 68, 0.24));
+        }
+
+        /* ====== MẶT TRƯỚC PHONG BÌ ====== */
+        .env-front-left {
+            position: absolute; left: 0; top: 0; bottom: 0; width: 0;
+            border-top: 108px solid transparent;
+            border-bottom: 107px solid transparent;
+            border-left: 160px solid var(--env-front);
+            z-index: 3; pointer-events: none;
+        }
+        .env-front-right {
+            position: absolute; right: 0; top: 0; bottom: 0; width: 0;
+            border-top: 108px solid transparent;
+            border-bottom: 107px solid transparent;
+            border-right: 160px solid var(--env-front-dark);
+            z-index: 3; pointer-events: none;
+        }
+        .env-front-bottom {
+            position: absolute; bottom: 0; left: 0; right: 0; height: 0;
+            border-left: 160px solid transparent;
+            border-right: 160px solid transparent;
+            border-bottom: 125px solid var(--env-front);
+            z-index: 4; pointer-events: none;
+            filter: drop-shadow(0 -2px 4px rgba(138, 63, 90, 0.08));
+        }
+
+        /* ====== NẮP PHONG BÌ & CON DẤU SÁP LÚC ĐÓNG ====== */
+        .env-top-flap {
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            border-left: 160px solid transparent;
+            border-right: 160px solid transparent;
+            border-top: 122px solid var(--env-flap);
+            transform-origin: top;
+            transition: transform 0.65s ease-in-out, z-index 0s 0.32s;
+            z-index: 5;
+            filter: drop-shadow(0 4px 6px rgba(138, 63, 90, 0.16));
+        }
+
+        .env-seal-container {
+            position: absolute;
+            inset: 0;
+            z-index: 6;
+            transform-origin: top;
+            transition: transform 0.65s ease-in-out, z-index 0s 0.32s, opacity 0.3s ease 0.25s;
+            pointer-events: none;
+        }
+
+        .outer-wax-seal {
+            position: absolute;
+            top: 120px;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 58px;
+            height: 58px;
+            filter: drop-shadow(0 5px 8px rgba(122, 39, 68, 0.35));
+        }
+
+        .scene-container.is-open .env-top-flap {
+            transform: rotateX(180deg);
+            z-index: 1;
+        }
+
+        .scene-container.is-open .env-seal-container {
+            transform: rotateX(180deg);
+            z-index: 1;
+            opacity: 0;
+        }
+
+        /* ====== NGÔI SAO TRANG TRÍ XUNG QUANH ====== */
+        .deco-layer {
+            position: absolute;
+            inset: 0;
+            z-index: 25;
+            pointer-events: none;
+        }
+
+        .floating-star {
+            position: absolute;
+            opacity: 0;
+            transform: scale(0.3) rotate(-25deg);
+            transition: opacity 0.7s ease 1.7s, transform 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) 1.7s;
+            filter: drop-shadow(0 2px 4px rgba(154, 56, 89, 0.25));
+        }
+
+        .scene-container.is-open .floating-star {
+            opacity: 0.95;
+            transform: scale(1) rotate(0deg);
+        }
+
+        /* Gợi ý chạm */
+        .tap-hint {
+            position: absolute;
+            top: -42px;
+            width: 100%;
+            text-align: center;
+            animation: bounce-subtle 2s infinite;
+            transition: opacity 0.4s ease;
+        }
+
+        .scene-container.is-open .tap-hint {
+            opacity: 0;
+        }
+
+        @keyframes bounce-subtle {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(5px); }
+        }
+    </style>
+</head>
+<body>
+
+    <main class="scene-container" id="scene">
+
+        <!-- TIÊU ĐỀ STICKER PHÍA TRÊN -->
+        <header class="top-header">
+            <div class="flex items-start justify-between">
+                <div class="font-sticker text-[30px] leading-none tracking-tight sticker-dark">
+                    You're invited
+                </div>
+                <svg class="w-12 h-12 -mt-1 -mr-1 drop-shadow-md" viewBox="0 0 64 64" fill="none">
+                    <path d="M6 24L32 13L58 24L32 35L6 24Z" fill="#2d2629" stroke="#1a1417" stroke-width="1.5"/>
+                    <path d="M16 29V40C16 44 23 47 32 47C41 47 48 44 48 40V29" fill="#3a3135"/>
+                    <path d="M52 27V44" stroke="#e4a2b6" stroke-width="2.5" stroke-linecap="round"/>
+                    <circle cx="52" cy="46" r="3" fill="#f3bfd0"/>
+                    <ellipse cx="27" cy="23" rx="6" ry="3.5" transform="rotate(-15 27 23)" fill="#f4bfd0"/>
+                    <ellipse cx="37" cy="23" rx="6" ry="3.5" transform="rotate(15 37 23)" fill="#f4bfd0"/>
+                    <circle cx="32" cy="23" r="2.6" fill="#e59ab2"/>
+                </svg>
+            </div>
+            <div class="flex items-baseline justify-end gap-2 mt-1 pr-2">
+                <span class="font-sticker text-[32px] leading-none sticker-dark">my</span>
+                <span class="font-sticker text-[34px] leading-none sticker-outline">graduation</span>
+            </div>
+        </header>
+
+        <!-- PHONG BÌ TƯƠNG TÁC -->
+        <div class="env-wrapper" id="envelope" onclick="openEnvelope()">
+
+            <p class="text-xs font-bold tracking-widest text-[var(--text-rose)] uppercase tap-hint">
+                Chạm vào thư để mở
+            </p>
+
+            <div class="env-back"></div>
+
+            <!-- TÚI ẢO CHỨA THIỆP & MẶT TRƯỚC -->
+            <div class="env-pocket">
+
+                <!-- TỜ THIỆP -->
+                <div class="env-letter" id="letter">
+                    <div class="env-letter-content">
+
+                        <!-- NƠ RUY BĂNG HỒNG GÓC TRÁI TRÊN -->
+                        <svg class="card-bow" viewBox="0 0 120 110" fill="none">
+                            <defs>
+                                <linearGradient id="ribbonGrad" x1="0" y1="0" x2="1" y2="1">
+                                    <stop offset="0%" stop-color="#fbe7ee"/>
+                                    <stop offset="45%" stop-color="#e9b5c5"/>
+                                    <stop offset="100%" stop-color="#cfa0b0"/>
+                                </linearGradient>
+                            </defs>
+                            <path d="M55 44 C40 65, 22 86, 15 104 L26 97 L34 106 C39 86, 50 67, 60 48 Z" fill="url(#ribbonGrad)"/>
+                            <path d="M64 46 C77 67, 88 86, 85 105 L95 97 L104 104 C104 82, 86 60, 69 44 Z" fill="url(#ribbonGrad)"/>
+                            <path d="M56 42 C34 18, 6 20, 10 42 C14 60, 42 54, 56 46 Z" fill="url(#ribbonGrad)" stroke="#d99eb1" stroke-width="1"/>
+                            <path d="M64 42 C86 16, 114 20, 110 42 C106 60, 78 54, 64 46 Z" fill="url(#ribbonGrad)" stroke="#d99eb1" stroke-width="1"/>
+                            <rect x="52" y="37" width="16" height="14" rx="5" fill="#dfa5b7" stroke="#c88ca0" stroke-width="1"/>
+                        </svg>
+
+                        <!-- TIÊU ĐỀ & TÊN -->
+                        <h1 class="font-script text-[41px] leading-[1.02] text-[var(--text-rose)]">
+                            Graduation
+                        </h1>
+                        <h2 class="font-script text-[31px] leading-[1.02] text-[var(--text-rose)] -mt-1">
+                            Kim Anh
+                        </h2>
+                        <p class="font-serif-elegant text-[10px] tracking-wide text-[var(--text-rose)] opacity-90 mt-1 mb-2">
+                            Hãy đến chung vui trong ngày tốt nghiệp cùng mình nhé!
+                        </p>
+
+                        <!-- NGÀY GIỜ -->
+                        <div class="w-full flex flex-col items-center">
+                            <p class="font-serif-elegant uppercase text-[11px] font-semibold tracking-[0.22em] text-[var(--text-rose)] mb-0.5">
+                                Tháng 12
+                            </p>
+                            <div class="flex items-center justify-center w-full max-w-[244px] gap-2.5">
+                                <div class="flex-1 double-bar">
+                                    <p class="font-serif-elegant uppercase text-[10px] font-semibold tracking-[0.14em]">Thứ 6</p>
+                                </div>
+                                <div class="font-serif-elegant text-[40px] font-semibold text-[var(--text-rose)] leading-none px-1 -mt-1">
+                                    04
+                                </div>
+                                <div class="flex-1 double-bar">
+                                    <p class="font-serif-elegant text-[10px] font-semibold tracking-[0.06em] whitespace-nowrap">10:30 -13:00</p>
+                                </div>
+                            </div>
+                            <p class="font-serif-elegant text-[11px] font-semibold tracking-[0.2em] text-[var(--text-rose)] mt-0.5">
+                                2026
+                            </p>
+                        </div>
+
+                        <!-- ĐỊA ĐIỂM -->
+                        <div class="mt-2 flex w-full items-center justify-center gap-1.5 text-[var(--text-rose)] relative z-20">
+                            <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M12 21s-6-5.2-6-10a6 6 0 1112 0c0 4.8-6 10-6 10z"/>
+                                <circle cx="12" cy="11" r="2.2"/>
+                                <path stroke-linecap="round" d="M8.5 21.2h7"/>
+                            </svg>
+                            <p class="font-serif-elegant font-semibold text-[12.5px] tracking-wide">
+                                ĐH Công Nghệ Sài Gòn
+                            </p>
+                            
+                        </div>
+                        <p class="font-serif-elegant font-semibold text-[10.5px] tracking-wide">
+                                180 Cao Lỗ , Phường Chánh Hưng
+                            </p>
+
+                        <!-- BÉ THỎ TRẮNG + HOA TRONG GÓC DƯỚI BÊN TRÁI -->
+                        <div class="bunny-wrap">
+                            <svg viewBox="0 0 180 200" class="w-full h-full" style="transform: scaleX(-1);" fill="none">
+                                <defs>
+                                    <radialGradient id="plushWhite" cx="42%" cy="32%" r="68%">
+                                        <stop offset="0%" stop-color="#ffffff"/>
+                                        <stop offset="72%" stop-color="#f7f1f3"/>
+                                        <stop offset="100%" stop-color="#e4d6db"/>
+                                    </radialGradient>
+                                    <radialGradient id="lilyPink" cx="35%" cy="35%" r="70%">
+                                        <stop offset="0%" stop-color="#fff5f8"/>
+                                        <stop offset="55%" stop-color="#f5bdd0"/>
+                                        <stop offset="100%" stop-color="#dd8fa9"/>
+                                    </radialGradient>
+                                </defs>
+                                <g transform="translate(128, 128) rotate(12)">
+                                    <ellipse cx="0" cy="-24" rx="14" ry="26" fill="url(#lilyPink)"/>
+                                    <ellipse cx="22" cy="-8" rx="14" ry="26" transform="rotate(72 22 -8)" fill="url(#lilyPink)"/>
+                                    <ellipse cx="14" cy="18" rx="14" ry="26" transform="rotate(144 14 18)" fill="url(#lilyPink)"/>
+                                    <ellipse cx="-14" cy="18" rx="14" ry="26" transform="rotate(216 -14 18)" fill="url(#lilyPink)"/>
+                                    <ellipse cx="-22" cy="-8" rx="14" ry="26" transform="rotate(288 -22 -8)" fill="url(#lilyPink)"/>
+                                    <circle cx="0" cy="0" r="8" fill="#f9e6b3"/>
+                                </g>
+                                <ellipse cx="64" cy="48" rx="14" ry="38" transform="rotate(-6 64 48)" fill="url(#plushWhite)"/>
+                                <ellipse cx="98" cy="48" rx="14" ry="38" transform="rotate(6 98 48)" fill="url(#plushWhite)"/>
+                                <ellipse cx="44" cy="150" rx="17" ry="12" transform="rotate(-24 44 150)" fill="url(#plushWhite)"/>
+                                <ellipse cx="118" cy="150" rx="17" ry="12" transform="rotate(24 118 150)" fill="url(#plushWhite)"/>
+                                <path d="M52 132 C46 154, 48 184, 54 196 L108 196 C114 184, 116 154, 110 132 Z" fill="url(#plushWhite)"/>
+                                <ellipse cx="81" cy="104" rx="43" ry="35" fill="url(#plushWhite)"/>
+                                <circle cx="66" cy="104" r="3.4" fill="#2f2428"/>
+                                <circle cx="96" cy="104" r="3.4" fill="#2f2428"/>
+                                <path d="M77 115 L85 121 M85 115 L77 121" stroke="#3c2f34" stroke-width="2.4" stroke-linecap="round"/>
+                                <ellipse cx="57" cy="112" rx="6" ry="3.5" fill="#f7c8d6" opacity="0.6"/>
+                                <ellipse cx="105" cy="112" rx="6" ry="3.5" fill="#f7c8d6" opacity="0.6"/>
+                                <g transform="translate(65, 76) rotate(-14)">
+                                    <path d="M0 0 C-14 -12, -26 -2, -20 9 C-14 17, -4 8, 0 3 Z" fill="#f3cad7" stroke="#df9fb4" stroke-width="1"/>
+                                    <path d="M0 0 C14 -12, 26 -2, 20 9 C14 17, 4 8, 0 3 Z" fill="#f3cad7" stroke="#df9fb4" stroke-width="1"/>
+                                    <path d="M-2 4 L-11 20 L-4 17 Z" fill="#e8b3c4"/>
+                                    <path d="M2 4 L11 20 L4 17 Z" fill="#e8b3c4"/>
+                                    <circle cx="0" cy="2" r="4.5" fill="#e6a6ba"/>
+                                </g>
+                            </svg>
+                        </div>
+
+                        <!-- CON DẤU SÁP Ở GIỮA PHẦN DƯỚI BỨC THƯ -->
+                        <div class="inner-wax-seal">
+                            <svg viewBox="0 0 100 100" class="w-full h-full">
+                                <defs>
+                                    <radialGradient id="waxGradInner" cx="35%" cy="30%" r="70%">
+                                        <stop offset="0%" stop-color="#e39bb2"/>
+                                        <stop offset="55%" stop-color="#bc6280"/>
+                                        <stop offset="100%" stop-color="#8b3b57"/>
+                                    </radialGradient>
+                                </defs>
+                                <path d="M50 3 C64 2, 78 8, 88 18 C97 29, 98 44, 96 58 C94 74, 83 89, 68 95 C52 100, 33 97, 20 87 C8 77, 2 60, 4 44 C6 28, 17 12, 32 6 C38 4, 44 3, 50 3 Z" fill="url(#waxGradInner)"/>
+                                <circle cx="50" cy="50" r="37" fill="none" stroke="#f5d5df" stroke-width="1.8" opacity="0.65"/>
+                                <circle cx="50" cy="50" r="32" fill="none" stroke="#7d314b" stroke-width="1.2" opacity="0.5"/>
+                                <path d="M54 27 C39 28, 28 40, 29 55 C30 69, 43 79, 57 76 C47 73, 41 64, 41 53 C41 42, 46 32, 54 27 Z" fill="#f7e2b5" opacity="0.95"/>
+                                <circle cx="62" cy="52" r="6.5" fill="#f7e2b5"/>
+                                <g stroke="#f7e2b5" stroke-width="1.8" stroke-linecap="round">
+                                    <line x1="62" y1="39" x2="62" y2="42"/>
+                                    <line x1="62" y1="62" x2="62" y2="65"/>
+                                    <line x1="49" y1="52" x2="52" y2="52"/>
+                                    <line x1="72" y1="52" x2="75" y2="52"/>
+                                    <line x1="53" y1="43" x2="55" y2="45"/>
+                                    <line x1="69" y1="59" x2="71" y2="61"/>
+                                    <line x1="53" y1="61" x2="55" y2="59"/>
+                                    <line x1="69" y1="45" x2="71" y2="43"/>
+                                </g>
+                                <circle cx="46" cy="40" r="1.6" fill="#fbe9c8"/>
+                                <circle cx="51" cy="65" r="1.4" fill="#fbe9c8"/>
+                            </svg>
+                        </div>
+
+                        <!-- ẢNH TỐT NGHIỆP TO RÕ TRONG GÓC DƯỚI BÊN PHẢI -->
+                        <div class="grad-photo-wrap" id="grad-wrap">
+                            <img
+                                src="kim-anh.png"
+                                alt="Kim Anh Tốt Nghiệp"
+                                class="grad-photo"
+                                onerror="this.style.display='none'; document.getElementById('photo-fallback').style.display='flex';"
+                            >
+                            <div id="photo-fallback" style="display:none;" class="w-24 h-28 rounded-xl border-2 border-dashed border-[#c87d96] bg-[#fff5f8]/90 text-[#9a3859] text-[9px] font-semibold p-2 items-center justify-center text-center leading-tight mb-2 mr-8">
+                                Lưu ảnh tên<br><b>kim-anh.png</b>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- MẶT TRƯỚC PHONG BÌ -->
+                <div class="env-front-left"></div>
+                <div class="env-front-right"></div>
+                <div class="env-front-bottom"></div>
+
+            </div>
+
+            <!-- NẮP PHONG BÌ -->
+            <div class="env-top-flap"></div>
+
+            <!-- CON DẤU SÁP LÚC ĐÓNG -->
+            <div class="env-seal-container">
+                <div class="outer-wax-seal">
+                    <svg viewBox="0 0 100 100" class="w-full h-full">
+                        <defs>
+                            <radialGradient id="waxGradOuter" cx="35%" cy="30%" r="70%">
+                                <stop offset="0%" stop-color="#e39bb2"/>
+                                <stop offset="55%" stop-color="#bc6280"/>
+                                <stop offset="100%" stop-color="#8b3b57"/>
+                            </radialGradient>
+                        </defs>
+                        <path d="M50 3 C64 2, 78 8, 88 18 C97 29, 98 44, 96 58 C94 74, 83 89, 68 95 C52 100, 33 97, 20 87 C8 77, 2 60, 4 44 C6 28, 17 12, 32 6 C38 4, 44 3, 50 3 Z" fill="url(#waxGradOuter)"/>
+                        <circle cx="50" cy="50" r="37" fill="none" stroke="#f5d5df" stroke-width="1.8" opacity="0.65"/>
+                        <path d="M54 27 C39 28, 28 40, 29 55 C30 69, 43 79, 57 76 C47 73, 41 64, 41 53 C41 42, 46 32, 54 27 Z" fill="#f7e2b5"/>
+                        <circle cx="62" cy="52" r="6" fill="#f7e2b5"/>
+                    </svg>
+                </div>
+            </div>
+
+            <!-- NGÔI SAO LẤP LÁNH XUNG QUANH -->
+            <div class="deco-layer">
+                <svg class="floating-star w-8 h-8 -top-[215px] -left-6" viewBox="0 0 40 40">
+                    <path d="M20 2 L24.5 14 L38 15 L27.5 23 L31 36 L20 28.5 L9 36 L12.5 23 L2 15 L15.5 14 Z" fill="#d17c98"/>
+                </svg>
+                <svg class="floating-star w-7 h-7 -top-[205px] -right-5" viewBox="0 0 40 40">
+                    <path d="M20 2 L24.5 14 L38 15 L27.5 23 L31 36 L20 28.5 L9 36 L12.5 23 L2 15 L15.5 14 Z" fill="#c76d8b"/>
+                </svg>
+                <svg class="floating-star w-7 h-7 -top-[65px] -left-7" viewBox="0 0 40 40">
+                    <path d="M20 2 L24.5 14 L38 15 L27.5 23 L31 36 L20 28.5 L9 36 L12.5 23 L2 15 L15.5 14 Z" fill="#d88aa4"/>
+                </svg>
+                <svg class="floating-star w-6 h-6 -top-[55px] -right-5" viewBox="0 0 40 40">
+                    <path d="M20 2 L24.5 14 L38 15 L27.5 23 L31 36 L20 28.5 L9 36 L12.5 23 L2 15 L15.5 14 Z" fill="#d88aa4"/>
+                </svg>
+            </div>
+
+        </div>
+    </main>
+
+    <script>
+        let isOpen = false;
+
+        function openEnvelope() {
+            if (isOpen) return;
+            document.getElementById('scene').classList.add('is-open');
+            isOpen = true;
+        }
+    </script>
+</body>
+</html>
